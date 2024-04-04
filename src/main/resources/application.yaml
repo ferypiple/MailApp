@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: sa
+    password:
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: arslan321asyanov@gmail.com
+    password: ikwasyzypufljgrb
+    test-connection: true
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        transport:
+          protocol: smtp
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
