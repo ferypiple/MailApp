@@ -26,6 +26,8 @@ public class Message implements BaseModel<Integer> {
 
     private String subject;
 
+    private String text;
+
     @Enumerated(EnumType.STRING)
     private Status status;
 

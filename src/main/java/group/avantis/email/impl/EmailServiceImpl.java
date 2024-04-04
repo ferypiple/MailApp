@@ -43,6 +43,7 @@ public class EmailServiceImpl implements EmailService {
                 .to_email(toAddress)
                 .status(Status.PENDING)
                 .subject(subject)
+                .text(message)
                 .send_date(LocalDateTime.now())
                 .build();
         messageService.saveMessage(messageEntity);
@@ -68,8 +69,7 @@ public class EmailServiceImpl implements EmailService {
             }
         } catch (Exception e) {
             messageService.updateMessageStatus(messageEntity.getId(), Status.ERROR);
-            e.printStackTrace();
-            return "timestamp:" + Instant.now() + "message:" + new MessageNotSendException();
+            return new MessageNotSendException().toString();
         }
 
         mailSender.send(mimeMessage);
