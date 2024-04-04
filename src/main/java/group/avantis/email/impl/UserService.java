@@ -1,4 +1,4 @@
-package group.avantis.email.services;
+package group.avantis.email.impl;
 
 import org.springframework.stereotype.Service;
 
