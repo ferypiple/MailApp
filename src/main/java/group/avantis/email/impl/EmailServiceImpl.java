@@ -1,6 +1,7 @@
 package group.avantis.email.impl;
 
 
+import group.avantis.email.api.v0.MailRecord;
 import group.avantis.email.exceptions.MessageNotSendException;
 import group.avantis.email.model.Message;
 import group.avantis.email.model.Status;
@@ -34,16 +35,16 @@ public class EmailServiceImpl implements EmailService {
 
 
     @Override
-    public MessageResponse sendEmail(String fromAddress, String toAddress, String subject, String message, MultipartFile[] attachments) {
+    public Message sendEmail(MailRecord mailRecord) {
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
 
         Message messageEntity = Message.builder()
-                .from_email(fromAddress)
-                .to_email(toAddress)
+                .from_email(mailRecord.from())
+                .to_email(mailRecord.to())
                 .status(Status.PENDING)
-                .subject(subject)
-                .text(message)
+                .subject(mailRecord.subject())
+                .text(mailRecord.text())
                 .send_date(LocalDateTime.now())
                 .build();
         messageService.saveMessage(messageEntity);
@@ -53,15 +54,18 @@ public class EmailServiceImpl implements EmailService {
 
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage,
                     true);
-            messageHelper.setFrom(fromAddress);
+            messageHelper.setFrom(mailRecord.from());
 
-            messageHelper.setTo(toAddress);
+            messageHelper.setTo(mailRecord.to());
 
-            messageHelper.setSubject(subject);
+            messageHelper.setSubject(mailRecord.subject());
 
-            messageHelper.setText(message);
+            messageHelper.setText(mailRecord.text());
 
-            if (attachments != null && attachments.length > 0) {
+
+            MultipartFile[] attachments = mailRecord.attachments();
+
+            if (mailRecord.attachments() != null && attachments.length > 0) {
                 for (MultipartFile file : attachments) {
                     Resource resource = new ByteArrayResource(file.getBytes());
                     messageHelper.addAttachment(file.getOriginalFilename(), resource);
@@ -77,7 +81,7 @@ public class EmailServiceImpl implements EmailService {
         messageService.updateMessageStatus(messageEntity.getId(), Status.SEND);
 
 
-        return new MessageResponse(messageEntity.getId());
+        return messageEntity;
     }
 
 }

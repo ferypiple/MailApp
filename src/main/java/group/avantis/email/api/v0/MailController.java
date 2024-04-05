@@ -33,14 +33,17 @@ public class MailController {
 
 
     @PostMapping
-    public ResponseEntity<String> sendEmailWithAttachment(
+    public ResponseEntity<MessageResponse> sendEmailWithAttachment(
             @ModelAttribute EmailRequest emailRequest) {
-        CompletableFuture<MessageResponse> future = CompletableFuture.supplyAsync(() ->
-                emailServiceImpl.sendEmail(emailRequest.getFrom(),
-                        emailRequest.getTo(),
-                        emailRequest.getSubject(),
-                        emailRequest.getText(),
-                        emailRequest.getAttachments()));
-        return ResponseEntity.ok().body("id: " + future.join().getId());
+        MailRecord mailRecord = new MailRecord(emailRequest.getFrom(),
+                emailRequest.getTo(),
+                emailRequest.getSubject(),
+                emailRequest.getText(),
+                emailRequest.getAttachments());
+        CompletableFuture<Message> future = CompletableFuture.supplyAsync(() ->
+                emailServiceImpl.sendEmail(mailRecord));
+        return ResponseEntity.ok().body(new MessageResponse(future.join().getId()));
     }
+
+
 }
