@@ -26,6 +26,7 @@ public class Message implements BaseModel<Integer> {
 
     private String subject;
 
+    @Column(length = 1000)
     private String text;
 
     @Enumerated(EnumType.STRING)
