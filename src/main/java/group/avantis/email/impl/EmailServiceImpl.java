@@ -4,7 +4,8 @@ package group.avantis.email.impl;
 import group.avantis.email.exceptions.MessageNotSendException;
 import group.avantis.email.model.Message;
 import group.avantis.email.model.Status;
-import group.avantis.email.services.EmailService;
+import group.avantis.email.EmailService;
+import group.avantis.email.responses.MessageResponse;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -14,7 +15,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Service
@@ -34,7 +34,7 @@ public class EmailServiceImpl implements EmailService {
 
 
     @Override
-    public String sendEmailWithAttachment(String fromAddress, String toAddress, String subject, String message, MultipartFile[] attachments) {
+    public MessageResponse sendEmail(String fromAddress, String toAddress, String subject, String message, MultipartFile[] attachments) {
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
 
@@ -69,7 +69,7 @@ public class EmailServiceImpl implements EmailService {
             }
         } catch (Exception e) {
             messageService.updateMessageStatus(messageEntity.getId(), Status.ERROR);
-            return new MessageNotSendException().toString();
+            new MessageNotSendException().toString();
         }
 
         mailSender.send(mimeMessage);
@@ -77,7 +77,7 @@ public class EmailServiceImpl implements EmailService {
         messageService.updateMessageStatus(messageEntity.getId(), Status.SEND);
 
 
-        return "id: " + messageEntity.getId().toString();
+        return new MessageResponse(messageEntity.getId());
     }
 
 }

@@ -2,17 +2,14 @@ package group.avantis.email.api.v0;
 
 import group.avantis.email.api.v0.model.EmailRequest;
 import group.avantis.email.exceptions.CustomExceptionHandler;
-import group.avantis.email.exceptions.MessageNotSendException;
 import group.avantis.email.impl.EmailServiceImpl;
 import group.avantis.email.impl.MessageService;
+import group.avantis.email.model.Message;
+import group.avantis.email.responses.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 @CustomExceptionHandler
 @RestController
@@ -38,12 +35,12 @@ public class MailController {
     @PostMapping
     public ResponseEntity<String> sendEmailWithAttachment(
             @ModelAttribute EmailRequest emailRequest) {
-        CompletableFuture<String> future = CompletableFuture.supplyAsync(() ->
-                emailServiceImpl.sendEmailWithAttachment(emailRequest.getFrom(),
+        CompletableFuture<MessageResponse> future = CompletableFuture.supplyAsync(() ->
+                emailServiceImpl.sendEmail(emailRequest.getFrom(),
                         emailRequest.getTo(),
                         emailRequest.getSubject(),
                         emailRequest.getText(),
                         emailRequest.getAttachments()));
-        return ResponseEntity.ok().body(future.join());
+        return ResponseEntity.ok().body("id: " + future.join().getId());
     }
 }
