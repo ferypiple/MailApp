@@ -71,16 +71,13 @@ public class EmailServiceImpl implements EmailService {
                     messageHelper.addAttachment(file.getOriginalFilename(), resource);
                 }
             }
+            mailSender.send(mimeMessage);
+
+            messageService.updateMessageStatus(messageEntity.getId(), Status.SEND);
         } catch (Exception e) {
             messageService.updateMessageStatus(messageEntity.getId(), Status.ERROR);
-            new MessageNotSendException().toString();
+            throw new MessageNotSendException();
         }
-
-        mailSender.send(mimeMessage);
-
-        messageService.updateMessageStatus(messageEntity.getId(), Status.SEND);
-
-
         return messageEntity;
     }
 

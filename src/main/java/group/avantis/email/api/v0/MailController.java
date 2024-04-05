@@ -16,34 +16,20 @@ import java.util.concurrent.CompletableFuture;
 @RequestMapping("/mailer/api/v0/mail")
 public class MailController {
 
-    private final EmailServiceImpl emailServiceImpl;
-    private final MessageService messageService;
+    private final EmailFacade emailFacade;
 
     @Autowired
-    public MailController(EmailServiceImpl emailServiceImpl, MessageService messageService) {
-        this.emailServiceImpl = emailServiceImpl;
-        this.messageService = messageService;
+    public MailController(EmailFacade emailFacade) {
+        this.emailFacade = emailFacade;
     }
-
 
     @GetMapping("/{id}/status")
     public ResponseEntity<String> getMessageStatus(@PathVariable("id") Integer messageId) {
-        return ResponseEntity.ok().body("status: " + messageService.getMessageStatusById(messageId).get());
+        return emailFacade.getMessageStatus(messageId);
     }
-
 
     @PostMapping
-    public ResponseEntity<MessageResponse> sendEmailWithAttachment(
-            @ModelAttribute EmailRequest emailRequest) {
-        MailRecord mailRecord = new MailRecord(emailRequest.getFrom(),
-                emailRequest.getTo(),
-                emailRequest.getSubject(),
-                emailRequest.getText(),
-                emailRequest.getAttachments());
-        CompletableFuture<Message> future = CompletableFuture.supplyAsync(() ->
-                emailServiceImpl.sendEmail(mailRecord));
-        return ResponseEntity.ok().body(new MessageResponse(future.join().getId()));
+    public ResponseEntity<MessageResponse> sendEmailWithAttachment(@ModelAttribute EmailRequest emailRequest) {
+        return emailFacade.sendEmailWithAttachment( emailRequest);
     }
-
-
 }
