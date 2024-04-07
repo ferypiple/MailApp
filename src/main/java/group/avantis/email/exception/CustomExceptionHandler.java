@@ -1,4 +1,4 @@
-package group.avantis.email.exceptions;
+package group.avantis.email.exception;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

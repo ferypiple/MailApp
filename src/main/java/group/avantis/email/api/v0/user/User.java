@@ -1,5 +1,6 @@
-package group.avantis.email.model;
+package group.avantis.email.api.v0.user;
 
+import group.avantis.email.model.BaseModel;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
