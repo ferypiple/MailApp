@@ -4,14 +4,21 @@ package group.avantus.mailApp.email.impl;
 import group.avantus.mailApp.exception.CustomExceptionHandler;
 import group.avantus.mailApp.exception.MessageNotSendException;
 import group.avantus.mailApp.EmailService;
+import group.avantus.mailApp.impl.usecase.query.GetFileQuery;
 import group.avantus.mailApp.message.impl.MessageServiceImpl;
+import group.avantus.mailApp.message.model.FileEntity;
 import group.avantus.mailApp.message.model.Message;
 import group.avantus.mailApp.message.model.Status;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @CustomExceptionHandler
 @Service
@@ -21,12 +28,14 @@ public class EmailServiceImpl implements EmailService {
     private final JavaMailSender mailSender;
 
     private final MessageServiceImpl messageServiceImpl;
+    private final GetFileQuery getFileQuery;
 
 
     @Autowired
-    public EmailServiceImpl(MessageServiceImpl messageServiceImpl, JavaMailSender mailSender) {
+    public EmailServiceImpl(MessageServiceImpl messageServiceImpl, JavaMailSender mailSender, GetFileQuery getFileQuery) {
         this.messageServiceImpl = messageServiceImpl;
         this.mailSender = mailSender;
+        this.getFileQuery = getFileQuery;
     }
 
     @Override
@@ -44,14 +53,14 @@ public class EmailServiceImpl implements EmailService {
             messageHelper.setText(mail.getText());
 
 
-//            MultipartFile[] attachments = mailRecord.attachments();
-//
-//            if (attachments != null && attachments.length > 0) {
-//                for (MultipartFile file : attachments) {
-//                    Resource resource = new ByteArrayResource(file.getBytes());
-//                    messageHelper.addAttachment(file.getOriginalFilename(), resource);
-//                }
-//            }
+            List<FileEntity> attachments = getFileQuery.execute(mail.getId());
+
+            if (attachments != null && attachments.size() > 0) {
+               for (FileEntity file : attachments) {
+                   Resource resource = new ByteArrayResource(file.getData());
+                   messageHelper.addAttachment(file.getFileName(), resource);
+                }
+           }
 
 
             mailSender.send(mimeMessage);

@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Data
@@ -36,6 +38,10 @@ public class Message implements BaseModel<Long> {
 
     @Column(nullable = false)
     private LocalDateTime send_date;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "message_id")
+    private List<FileEntity> files = new ArrayList<>();
 
     @Override
     public void setID(Long id) {

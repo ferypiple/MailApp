@@ -5,13 +5,18 @@ import group.avantus.mailApp.email.model.MailRecord;
 import group.avantus.mailApp.exception.MessageNotSendException;
 import group.avantus.mailApp.impl.usecase.query.GetMessageQuery;
 import group.avantus.mailApp.impl.usecase.command.ChangeStatusCommand;
-import group.avantus.mailApp.impl.usecase.command.SaveCommand;
+import group.avantus.mailApp.impl.usecase.command.SaveMessageCommand;
+import group.avantus.mailApp.message.model.FileEntity;
 import group.avantus.mailApp.message.model.Message;
 import group.avantus.mailApp.message.model.Status;
+import jakarta.mail.Multipart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,20 +25,28 @@ public class MessageServiceImpl implements MessageService {
     private final ChangeStatusCommand changeStatusCommand;
 
     private final GetMessageQuery getMessageQuery;
-    private final SaveCommand saveCommand;
+    private final SaveMessageCommand saveMessageCommand;
 
-
+    private final FileService fileService;
 
 
     @Autowired
-    public MessageServiceImpl(GetMessageQuery getMessageQuery, ChangeStatusCommand changeStatusCommand, SaveCommand saveCommand) {
+    public MessageServiceImpl(GetMessageQuery getMessageQuery, ChangeStatusCommand changeStatusCommand, SaveMessageCommand saveMessageCommand, FileService fileService) {
         this.getMessageQuery = getMessageQuery;
         this.changeStatusCommand = changeStatusCommand;
-        this.saveCommand = saveCommand;
+        this.saveMessageCommand = saveMessageCommand;
+        this.fileService = fileService;
     }
 
-    public Message sendMessage(MailRecord mailRecord){
+    public Message sendMessage(MailRecord mailRecord) {
+
         try {
+            List<FileEntity> files = new ArrayList<>();
+            if (mailRecord.attachments() != null) {
+                for (MultipartFile file : mailRecord.attachments()) {
+                    files.add(fileService.saveFile(file));
+                }
+            }
             Message messageEntity = Message.builder()
                     .from_email(mailRecord.from())
                     .to_email(mailRecord.to())
@@ -41,11 +54,12 @@ public class MessageServiceImpl implements MessageService {
                     .subject(mailRecord.subject())
                     .text(mailRecord.text())
                     .send_date(LocalDateTime.now())
+                    .files(files)
                     .build();
-            saveCommand.execute(messageEntity);
+            saveMessageCommand.execute(messageEntity);
 
             return messageEntity;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new MessageNotSendException();
         }
 

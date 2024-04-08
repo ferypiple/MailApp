@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SaveCommand {
+public class SaveMessageCommand {
 
     private final MessageRepository messageRepository;
 
     @Autowired
-    public SaveCommand(MessageRepository messageRepository) {
+    public SaveMessageCommand(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;
     }
     public Message execute(Message message) {
