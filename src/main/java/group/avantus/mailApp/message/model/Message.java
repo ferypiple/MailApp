@@ -16,10 +16,10 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table(name = "messages")
-public class Message implements BaseModel<Integer> {
+public class Message implements BaseModel<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @Column(nullable = false)
     private String from_email;
     @Column(nullable = false)
@@ -38,7 +38,7 @@ public class Message implements BaseModel<Integer> {
     private LocalDateTime send_date;
 
     @Override
-    public void setID(Integer id) {
+    public void setID(Long id) {
         this.id = id;
     }
 }

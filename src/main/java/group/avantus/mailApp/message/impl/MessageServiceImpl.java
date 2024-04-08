@@ -51,11 +51,11 @@ public class MessageServiceImpl implements MessageService {
 
     }
 
-    public Message updateMessageStatus(Integer messageId, Status status) {
+    public Message updateMessageStatus(Long messageId, Status status) {
         return changeStatusCommand.execute(messageId, status);
     }
 
-    public Optional<Status> getMessageStatusById(Integer id) {
+    public Optional<Status> getMessageStatusById(Long id) {
         return getMessageQuery.execute(id);
     }
 }

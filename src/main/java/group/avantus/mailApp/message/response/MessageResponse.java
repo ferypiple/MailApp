@@ -6,7 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class MessageResponse {
-    private Integer id;
+    private Long id;
 
     @Override
     public String toString() {

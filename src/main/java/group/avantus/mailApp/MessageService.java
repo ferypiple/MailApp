@@ -15,9 +15,9 @@ public interface MessageService  {
 
 
 
-    Message updateMessageStatus(Integer messageId, Status status);
+    Message updateMessageStatus(Long messageId, Status status);
 
 
-    Optional<Status> getMessageStatusById(Integer id);
+    Optional<Status> getMessageStatusById(Long id);
 
 }

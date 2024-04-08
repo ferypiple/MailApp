@@ -24,7 +24,7 @@ public class MailController {
         this.messageServiceImpl = messageServiceImpl;
     }
     @GetMapping("/{id}/status")
-    public ResponseEntity<String> getMessageStatus(@PathVariable("id") Integer messageId) {
+    public ResponseEntity<String> getMessageStatus(@PathVariable("id") Long messageId) {
         return ResponseEntity.ok().body("status: " + messageServiceImpl.getMessageStatusById(messageId).get());
     }
     @PostMapping

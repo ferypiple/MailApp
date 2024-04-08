@@ -17,7 +17,7 @@ public class GetMessageQuery {
         this.messageRepository = messageRepository;
     }
 
-    public Optional<Status> execute(Integer id) {
+    public Optional<Status> execute(Long id) {
         Optional<Message> optionalMessage = messageRepository.findById(id);
         return optionalMessage.map(Message::getStatus);
     }

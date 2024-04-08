@@ -1,5 +1,6 @@
 package group.avantus.mailApp.impl.usecase.command;
 
+import group.avantus.mailApp.exception.MessageNotFoundException;
 import group.avantus.mailApp.message.model.Message;
 import group.avantus.mailApp.message.model.Status;
 import group.avantus.mailApp.message.repository.impl.jpa.MessageRepository;
@@ -15,9 +16,9 @@ public class ChangeStatusCommand {
         this.messageRepository = messageRepository;
     }
 
-    public Message execute(Integer messageId, Status status) {
+    public Message execute(Long messageId, Status status) {
         Message message = messageRepository.findById(messageId)
-                .orElseThrow(() -> new RuntimeException("Message not found with id: " + messageId));
+                .orElseThrow(() -> new MessageNotFoundException(messageId));
         message.setStatus(status);
         return messageRepository.save(message);
     }
