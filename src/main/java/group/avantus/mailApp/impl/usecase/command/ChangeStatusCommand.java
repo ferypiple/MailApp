@@ -1,4 +1,4 @@
-package group.avantus.mailApp.impl.usecase;
+package group.avantus.mailApp.impl.usecase.command;
 
 import group.avantus.mailApp.message.model.Message;
 import group.avantus.mailApp.message.model.Status;
@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ChangeStatusQuery {
+public class ChangeStatusCommand {
     private final MessageRepository messageRepository;
 
     @Autowired
-    public ChangeStatusQuery(MessageRepository messageRepository) {
+    public ChangeStatusCommand(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;
     }
 

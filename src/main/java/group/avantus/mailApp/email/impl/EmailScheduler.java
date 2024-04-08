@@ -1,7 +1,7 @@
 package group.avantus.mailApp.email.impl;
 
 import group.avantus.mailApp.EmailService;
-import group.avantus.mailApp.impl.usecase.FindAllQuery;
+import group.avantus.mailApp.impl.usecase.query.FindMessageByStatusQuery;
 import group.avantus.mailApp.message.model.Message;
 import group.avantus.mailApp.message.model.Status;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +15,17 @@ public class EmailScheduler {
 
     private final EmailService emailService;
 
-    private final FindAllQuery findAllQuery;
+    private final FindMessageByStatusQuery findMessageByStatusQuery;
     @Autowired
-    public EmailScheduler(EmailService emailService, FindAllQuery findAllQuery) {
+    public EmailScheduler(EmailService emailService, FindMessageByStatusQuery findMessageByStatusQuery) {
         this.emailService = emailService;
-        this.findAllQuery = findAllQuery;
+        this.findMessageByStatusQuery = findMessageByStatusQuery;
     }
 
 
     @Scheduled(fixedRateString = "${bot.recountNewArticleFixedRate}")
     public void sendPendingEmails() {
-        List<Message> pendingMessages = findAllQuery.execute(Status.PENDING);
+        List<Message> pendingMessages = findMessageByStatusQuery.execute(Status.PENDING);
         for (Message message : pendingMessages) {
              emailService.sendEmail(message);
          }

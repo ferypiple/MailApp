@@ -1,4 +1,4 @@
-package group.avantus.mailApp.impl.usecase;
+package group.avantus.mailApp.impl.usecase.command;
 
 import group.avantus.mailApp.message.model.Message;
 import group.avantus.mailApp.message.repository.impl.jpa.MessageRepository;

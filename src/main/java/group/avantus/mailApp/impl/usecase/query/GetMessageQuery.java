@@ -1,4 +1,4 @@
-package group.avantus.mailApp.impl.usecase;
+package group.avantus.mailApp.impl.usecase.query;
 
 import group.avantus.mailApp.message.model.Message;
 import group.avantus.mailApp.message.model.Status;
@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class FindCommand {
+public class GetMessageQuery {
     private final MessageRepository messageRepository;
 
     @Autowired
-    public FindCommand(MessageRepository messageRepository) {
+    public GetMessageQuery(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;
     }
 

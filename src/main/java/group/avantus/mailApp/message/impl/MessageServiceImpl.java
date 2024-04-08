@@ -3,9 +3,9 @@ package group.avantus.mailApp.message.impl;
 import group.avantus.mailApp.MessageService;
 import group.avantus.mailApp.email.model.MailRecord;
 import group.avantus.mailApp.exception.MessageNotSendException;
-import group.avantus.mailApp.impl.usecase.FindCommand;
-import group.avantus.mailApp.impl.usecase.ChangeStatusQuery;
-import group.avantus.mailApp.impl.usecase.SaveCommand;
+import group.avantus.mailApp.impl.usecase.query.GetMessageQuery;
+import group.avantus.mailApp.impl.usecase.command.ChangeStatusCommand;
+import group.avantus.mailApp.impl.usecase.command.SaveCommand;
 import group.avantus.mailApp.message.model.Message;
 import group.avantus.mailApp.message.model.Status;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +17,18 @@ import java.util.Optional;
 @Service
 public class MessageServiceImpl implements MessageService {
 
-    private final ChangeStatusQuery changeStatusQuery;
+    private final ChangeStatusCommand changeStatusCommand;
 
-    private final FindCommand findCommand;
+    private final GetMessageQuery getMessageQuery;
     private final SaveCommand saveCommand;
 
 
 
 
     @Autowired
-    public MessageServiceImpl(FindCommand findCommand, ChangeStatusQuery changeStatusQuery, SaveCommand saveCommand) {
-        this.findCommand = findCommand;
-        this.changeStatusQuery = changeStatusQuery;
+    public MessageServiceImpl(GetMessageQuery getMessageQuery, ChangeStatusCommand changeStatusCommand, SaveCommand saveCommand) {
+        this.getMessageQuery = getMessageQuery;
+        this.changeStatusCommand = changeStatusCommand;
         this.saveCommand = saveCommand;
     }
 
@@ -52,11 +52,11 @@ public class MessageServiceImpl implements MessageService {
     }
 
     public Message updateMessageStatus(Integer messageId, Status status) {
-        return changeStatusQuery.execute(messageId, status);
+        return changeStatusCommand.execute(messageId, status);
     }
 
     public Optional<Status> getMessageStatusById(Integer id) {
-        return findCommand.execute(id);
+        return getMessageQuery.execute(id);
     }
 }
 
