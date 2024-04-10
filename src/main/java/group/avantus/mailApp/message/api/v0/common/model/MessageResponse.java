@@ -1,4 +1,4 @@
-package group.avantus.mailApp.message.response;
+package group.avantus.mailApp.message.api.v0.common.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

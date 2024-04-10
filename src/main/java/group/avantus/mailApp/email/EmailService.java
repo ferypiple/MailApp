@@ -1,4 +1,4 @@
-package group.avantus.mailApp;
+package group.avantus.mailApp.email;
 
 import group.avantus.mailApp.message.model.Message;
 import org.springframework.stereotype.Service;

@@ -1,10 +1,7 @@
-package group.avantus.mailApp.impl.usecase.query;
+package group.avantus.mailApp.message.file.impl.usecase.query;
 
-import group.avantus.mailApp.message.impl.FileService;
 import group.avantus.mailApp.message.model.FileEntity;
-import group.avantus.mailApp.message.model.Message;
 import group.avantus.mailApp.message.repository.impl.jpa.FileRepository;
-import group.avantus.mailApp.message.repository.impl.jpa.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

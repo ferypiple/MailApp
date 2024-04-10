@@ -2,9 +2,9 @@ package group.avantus.mailApp.email.impl;
 
 
 import group.avantus.mailApp.exception.CustomExceptionHandler;
-import group.avantus.mailApp.exception.MessageNotSendException;
-import group.avantus.mailApp.EmailService;
-import group.avantus.mailApp.impl.usecase.query.GetFileQuery;
+import group.avantus.mailApp.email.exception.MessageNotSendException;
+import group.avantus.mailApp.email.EmailService;
+import group.avantus.mailApp.message.file.impl.usecase.query.GetFileQuery;
 import group.avantus.mailApp.message.impl.MessageServiceImpl;
 import group.avantus.mailApp.message.model.FileEntity;
 import group.avantus.mailApp.message.model.Message;
@@ -16,7 +16,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -66,9 +65,9 @@ public class EmailServiceImpl implements EmailService {
             mailSender.send(mimeMessage);
 
 
-            messageServiceImpl.updateMessageStatus(mail.getId(), Status.SEND);
+            messageServiceImpl.updateStatus(mail.getId(), Status.SEND);
         } catch (Exception e) {
-            messageServiceImpl.updateMessageStatus(mail.getId(), Status.ERROR);
+            messageServiceImpl.updateStatus(mail.getId(), Status.ERROR);
             throw new MessageNotSendException();
         }
     }

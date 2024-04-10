@@ -1,5 +1,6 @@
-package group.avantus.mailApp.email.model;
+package group.avantus.mailApp.message.model;
 
+import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 public record MailRecord(String from,

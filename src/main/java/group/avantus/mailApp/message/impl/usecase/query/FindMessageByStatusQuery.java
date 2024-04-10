@@ -1,4 +1,4 @@
-package group.avantus.mailApp.impl.usecase.query;
+package group.avantus.mailApp.message.impl.usecase.query;
 
 import group.avantus.mailApp.message.model.Message;
 import group.avantus.mailApp.message.model.Status;

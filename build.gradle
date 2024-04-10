@@ -26,6 +26,7 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     implementation group: 'org.postgresql', name: 'postgresql'
     implementation 'org.springframework.boot:spring-boot-starter-mail:3.2.4'
+    implementation 'jakarta.validation:jakarta.validation-api'
 
 }
 

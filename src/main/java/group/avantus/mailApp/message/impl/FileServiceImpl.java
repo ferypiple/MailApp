@@ -1,5 +1,6 @@
 package group.avantus.mailApp.message.impl;
-import group.avantus.mailApp.impl.usecase.command.SaveFileCommand;
+import group.avantus.mailApp.message.file.FileService;
+import group.avantus.mailApp.message.file.impl.usecase.command.SaveFileCommand;
 import group.avantus.mailApp.message.model.FileEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @Service
-public class FileService {
+public class FileServiceImpl implements FileService {
 
     @Autowired
     private SaveFileCommand saveFileCommand;

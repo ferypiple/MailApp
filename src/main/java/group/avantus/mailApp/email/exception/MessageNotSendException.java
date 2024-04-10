@@ -1,4 +1,4 @@
-package group.avantus.mailApp.exception;
+package group.avantus.mailApp.email.exception;
 
 import java.time.Instant;
 

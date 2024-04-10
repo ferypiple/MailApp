@@ -1,15 +1,14 @@
 package group.avantus.mailApp.message.impl;
 
-import group.avantus.mailApp.MessageService;
-import group.avantus.mailApp.email.model.MailRecord;
-import group.avantus.mailApp.exception.MessageNotSendException;
-import group.avantus.mailApp.impl.usecase.query.GetMessageQuery;
-import group.avantus.mailApp.impl.usecase.command.ChangeStatusCommand;
-import group.avantus.mailApp.impl.usecase.command.SaveMessageCommand;
+import group.avantus.mailApp.message.MessageService;
+import group.avantus.mailApp.message.model.MailRecord;
+import group.avantus.mailApp.email.exception.MessageNotSendException;
+import group.avantus.mailApp.message.impl.usecase.query.GetMessageQuery;
+import group.avantus.mailApp.message.impl.usecase.command.ChangeStatusCommand;
+import group.avantus.mailApp.message.impl.usecase.command.SaveMessageCommand;
 import group.avantus.mailApp.message.model.FileEntity;
 import group.avantus.mailApp.message.model.Message;
 import group.avantus.mailApp.message.model.Status;
-import jakarta.mail.Multipart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,27 +26,27 @@ public class MessageServiceImpl implements MessageService {
     private final GetMessageQuery getMessageQuery;
     private final SaveMessageCommand saveMessageCommand;
 
-    private final FileService fileService;
+    private final FileServiceImpl fileServiceImpl;
 
 
     @Autowired
-    public MessageServiceImpl(GetMessageQuery getMessageQuery, ChangeStatusCommand changeStatusCommand, SaveMessageCommand saveMessageCommand, FileService fileService) {
+    public MessageServiceImpl(GetMessageQuery getMessageQuery, ChangeStatusCommand changeStatusCommand, SaveMessageCommand saveMessageCommand, FileServiceImpl fileServiceImpl) {
         this.getMessageQuery = getMessageQuery;
         this.changeStatusCommand = changeStatusCommand;
         this.saveMessageCommand = saveMessageCommand;
-        this.fileService = fileService;
+        this.fileServiceImpl = fileServiceImpl;
     }
 
-    public Message sendMessage(MailRecord mailRecord) {
-
+    public Message createMessage(MailRecord mailRecord) {
+        Message messageEntity = null;
         try {
             List<FileEntity> files = new ArrayList<>();
             if (mailRecord.attachments() != null) {
                 for (MultipartFile file : mailRecord.attachments()) {
-                    files.add(fileService.saveFile(file));
+                    files.add(fileServiceImpl.saveFile(file));
                 }
             }
-            Message messageEntity = Message.builder()
+             messageEntity = Message.builder()
                     .from_email(mailRecord.from())
                     .to_email(mailRecord.to())
                     .status(Status.PENDING)
@@ -60,12 +59,13 @@ public class MessageServiceImpl implements MessageService {
 
             return messageEntity;
         } catch (Exception e) {
+            messageEntity.setStatus(Status.ERROR);
             throw new MessageNotSendException();
         }
 
     }
 
-    public Message updateMessageStatus(Long messageId, Status status) {
+    public Message updateStatus(Long messageId, Status status) {
         return changeStatusCommand.execute(messageId, status);
     }
 

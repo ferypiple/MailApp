@@ -1,5 +1,6 @@
-package group.avantus.mailApp.exception;
+package group.avantus.mailApp.message.exception;
 
+import group.avantus.mailApp.message.exception.MessageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
