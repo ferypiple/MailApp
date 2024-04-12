@@ -6,8 +6,10 @@ import group.avantus.mailApp.message.impl.MessageServiceImpl;
 import group.avantus.mailApp.message.model.MailRecord;
 import group.avantus.mailApp.message.api.v0.common.model.MessageResponse;
 import group.avantus.mailApp.message.api.v0.common.model.StatusResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @CustomExceptionHandler
@@ -28,13 +30,13 @@ public class MailController {
     }
     @ResponseStatus(HttpStatus.OK)
     @PostMapping
-    public MessageResponse addMessage(@ModelAttribute EmailRequest emailRequest) {
+    public MessageResponse addMessage(@ModelAttribute @Valid  EmailRequest emailRequest) {
         MailRecord mailRecord = new MailRecord(
                 emailRequest.getFrom(),
                 emailRequest.getTo(),
                 emailRequest.getSubject(),
                 emailRequest.getText(),
                 emailRequest.getAttachments());
-        return new MessageResponse(messageServiceImpl.createMessage(mailRecord).getId());
+        return new MessageResponse(messageServiceImpl.createMessage(mailRecord));
     }
 }
