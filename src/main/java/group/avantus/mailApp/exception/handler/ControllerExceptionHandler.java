@@ -4,6 +4,7 @@ import group.avantus.mailApp.exception.CustomExceptionHandler;
 import group.avantus.mailApp.email.exception.MessageNotSendException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -15,6 +16,9 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
-
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> notValid() {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Неверные переменные");
+    }
 }
 

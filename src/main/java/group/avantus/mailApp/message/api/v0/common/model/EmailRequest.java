@@ -1,13 +1,12 @@
 package group.avantus.mailApp.message.api.v0.common.model;
 
-import group.avantus.mailApp.exception.CustomExceptionHandler;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
-@CustomExceptionHandler
+
 @Data
 @Validated
 public class EmailRequest {
