@@ -1,8 +1,10 @@
 package group.avantus.mailApp.message.impl;
 
 import group.avantus.mailApp.message.MessageService;
+import group.avantus.mailApp.message.exception.MessageNotCreate;
+import group.avantus.mailApp.message.file.FileService;
 import group.avantus.mailApp.message.model.MailRecord;
-import group.avantus.mailApp.email.exception.MessageNotSendException;
+import group.avantus.mailApp.email.exception.EmailSendException;
 import group.avantus.mailApp.message.impl.usecase.query.GetMessageQuery;
 import group.avantus.mailApp.message.impl.usecase.command.ChangeStatusCommand;
 import group.avantus.mailApp.message.impl.usecase.command.SaveMessageCommand;
@@ -11,6 +13,7 @@ import group.avantus.mailApp.message.model.Message;
 import group.avantus.mailApp.message.model.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
@@ -21,56 +24,50 @@ import java.util.Optional;
 @Service
 public class MessageServiceImpl implements MessageService {
 
-    private final ChangeStatusCommand changeStatusCommand;
+  private final ChangeStatusCommand changeStatusCommand;
 
-    private final GetMessageQuery getMessageQuery;
-    private final SaveMessageCommand saveMessageCommand;
+  private final GetMessageQuery getMessageQuery;
+  private final SaveMessageCommand saveMessageCommand;
 
-    private final FileServiceImpl fileServiceImpl;
+  private final FileService fileService;
 
 
-    @Autowired
-    public MessageServiceImpl(GetMessageQuery getMessageQuery, ChangeStatusCommand changeStatusCommand, SaveMessageCommand saveMessageCommand, FileServiceImpl fileServiceImpl) {
-        this.getMessageQuery = getMessageQuery;
-        this.changeStatusCommand = changeStatusCommand;
-        this.saveMessageCommand = saveMessageCommand;
-        this.fileServiceImpl = fileServiceImpl;
-    }
+  @Autowired
+  public MessageServiceImpl(GetMessageQuery getMessageQuery,
+      ChangeStatusCommand changeStatusCommand, SaveMessageCommand saveMessageCommand,
+      FileServiceImpl fileService) {
+    this.getMessageQuery = getMessageQuery;
+    this.changeStatusCommand = changeStatusCommand;
+    this.saveMessageCommand = saveMessageCommand;
+    this.fileService = fileService;
+  }
 
-    public Message createMessage(MailRecord mailRecord) {
-        Message messageEntity = null;
-        try {
-            List<FileEntity> files = new ArrayList<>();
-            if (mailRecord.attachments() != null) {
-                for (MultipartFile file : mailRecord.attachments()) {
-                    files.add(fileServiceImpl.saveFile(file));
-                }
-            }
-             messageEntity = Message.builder()
-                    .from_email(mailRecord.from())
-                    .to_email(mailRecord.to())
-                    .status(Status.PENDING)
-                    .subject(mailRecord.subject())
-                    .text(mailRecord.text())
-                    .send_date(LocalDateTime.now())
-                    .files(files)
-                    .build();
-            saveMessageCommand.execute(messageEntity);
-
-            return messageEntity;
-        } catch (Exception e) {
-            messageEntity.setStatus(Status.ERROR);
-            throw new MessageNotSendException();
+  @Transactional
+  public Message saveMessage(MailRecord mailRecord) {
+    try {
+      List<FileEntity> files = new ArrayList<>();
+      if (mailRecord.attachments() != null) {
+        for (MultipartFile file : mailRecord.attachments()) {
+          files.add(fileService.saveFile(file));
         }
+      }
+      var messageEntity = saveMessageCommand.execute(mailRecord, files);
 
+      return messageEntity;
+    } catch (Exception e) {
+      throw new MessageNotCreate(e.getMessage());
     }
 
-    public Message updateStatus(Long messageId, Status status) {
-        return changeStatusCommand.execute(messageId, status);
-    }
+  }
 
-    public Optional<Status> getMessageStatusById(Long id) {
-        return getMessageQuery.execute(id);
-    }
+  @Transactional
+  public Message updateStatus(Long messageId, Status status) {
+    return changeStatusCommand.execute(messageId, status);
+  }
+
+  @Transactional
+  public Optional<Message> getMessage(Long id) {
+    return getMessageQuery.execute(id);
+  }
 }
 

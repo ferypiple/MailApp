@@ -10,15 +10,16 @@ import java.util.Optional;
 
 @Component
 public class GetMessageQuery {
-    private final MessageRepository messageRepository;
 
-    @Autowired
-    public GetMessageQuery(MessageRepository messageRepository) {
-        this.messageRepository = messageRepository;
-    }
+  private final MessageRepository messageRepository;
 
-    public Optional<Status> execute(Long id) {
-        Optional<Message> optionalMessage = messageRepository.findById(id);
-        return optionalMessage.map(Message::getStatus);
-    }
+  @Autowired
+  public GetMessageQuery(MessageRepository messageRepository) {
+    this.messageRepository = messageRepository;
+  }
+
+  public Optional<Message> execute(Long id) {
+    Optional<Message> optionalMessage = messageRepository.findById(id);
+    return optionalMessage;
+  }
 }

@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class SaveFileCommand {
 
-    private final FileRepository fileRepository;
+  private final FileRepository fileRepository;
 
-    @Autowired
-    public SaveFileCommand(FileRepository fileRepository) {
-        this.fileRepository = fileRepository;
-    }
+  @Autowired
+  public SaveFileCommand(FileRepository fileRepository) {
+    this.fileRepository = fileRepository;
+  }
 
-    public FileEntity execute(FileEntity fileEntity) {
-        return fileRepository.save(fileEntity);
-    }
+  public FileEntity execute(FileEntity fileEntity) {
+    return fileRepository.save(fileEntity);
+  }
 }

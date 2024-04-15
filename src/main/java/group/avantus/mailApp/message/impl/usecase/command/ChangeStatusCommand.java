@@ -9,18 +9,19 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ChangeStatusCommand {
-    private final MessageRepository messageRepository;
 
-    @Autowired
-    public ChangeStatusCommand(MessageRepository messageRepository) {
-        this.messageRepository = messageRepository;
-    }
+  private final MessageRepository messageRepository;
 
-    public Message execute(Long messageId, Status status) {
-        Message message = messageRepository.findById(messageId)
-                .orElseThrow(() -> new MessageNotFoundException(messageId));
-        message.setStatus(status);
-        return messageRepository.save(message);
-    }
+  @Autowired
+  public ChangeStatusCommand(MessageRepository messageRepository) {
+    this.messageRepository = messageRepository;
+  }
+
+  public Message execute(Long messageId, Status status) {
+    Message message = messageRepository.findById(messageId)
+        .orElseThrow(() -> new MessageNotFoundException(messageId));
+    message.setStatus(status);
+    return messageRepository.save(message);
+  }
 
 }

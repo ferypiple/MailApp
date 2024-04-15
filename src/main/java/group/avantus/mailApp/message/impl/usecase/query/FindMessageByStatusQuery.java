@@ -7,15 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
 @Component
 public class FindMessageByStatusQuery {
-    private final MessageRepository messageRepository;
 
-    @Autowired
-    public FindMessageByStatusQuery(MessageRepository messageRepository) {
-        this.messageRepository = messageRepository;
-    }
-    public List<Message> execute(Status status) {
-        return messageRepository.findAllByStatus(status);
-    }
+  private final MessageRepository messageRepository;
+
+  @Autowired
+  public FindMessageByStatusQuery(MessageRepository messageRepository) {
+    this.messageRepository = messageRepository;
+  }
+
+  public List<Message> execute(Status status) {
+    return messageRepository.findAllByStatus(status);
+  }
 }

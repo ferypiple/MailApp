@@ -6,15 +6,12 @@ import group.avantus.mailApp.message.model.Status;
 
 import java.util.Optional;
 
-public interface MessageService  {
-    Message createMessage(MailRecord mailRecord);
+public interface MessageService {
 
+  Message saveMessage(MailRecord mailRecord);
 
+  Message updateStatus(Long messageId, Status status);
 
-
-    Message updateStatus(Long messageId, Status status);
-
-
-    Optional<Status> getMessageStatusById(Long id);
+  Optional<Message> getMessage(Long id);
 
 }
