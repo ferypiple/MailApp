@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Table(name = "files")
 public class FileEntity implements BaseModel {
 
-    @jakarta.persistence.Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

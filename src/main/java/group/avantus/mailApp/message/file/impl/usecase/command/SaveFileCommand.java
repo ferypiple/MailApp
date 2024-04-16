@@ -1,7 +1,7 @@
 package group.avantus.mailApp.message.file.impl.usecase.command;
 
 import group.avantus.mailApp.message.model.FileEntity;
-import group.avantus.mailApp.message.repository.impl.jpa.FileRepository;
+import group.avantus.mailApp.message.file.repository.impl.jpa.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -1,11 +1,9 @@
 package group.avantus.mailApp.message.file.impl.usecase.query;
 
 import group.avantus.mailApp.message.model.FileEntity;
-import group.avantus.mailApp.message.repository.impl.jpa.FileRepository;
+import group.avantus.mailApp.message.file.repository.impl.jpa.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,11 +11,15 @@ import java.util.List;
 public class GetFileQuery {
 
 
-    @Autowired
-    private FileRepository fileRepository;
+  private FileRepository fileRepository;
+
+  @Autowired
+  public GetFileQuery(FileRepository fileRepository) {
+    this.fileRepository = fileRepository;
+  }
 
 
-    public List<FileEntity> execute(Long messageId) {
-        return fileRepository.findByMessageId(messageId);
-    }
+  public List<FileEntity> execute(Long messageId) {
+    return fileRepository.findByMessageId(messageId);
+  }
 }

@@ -45,14 +45,7 @@ public class MessageServiceImpl implements MessageService {
   @Transactional
   public Message saveMessage(MailRecord mailRecord) {
     try {
-      List<FileEntity> files = new ArrayList<>();
-      if (mailRecord.attachments() != null) {
-        for (MultipartFile file : mailRecord.attachments()) {
-          files.add(fileService.saveFile(file));
-        }
-      }
-      var messageEntity = saveMessageCommand.execute(mailRecord, files);
-
+      var messageEntity = saveMessageCommand.execute(mailRecord);
       return messageEntity;
     } catch (Exception e) {
       throw new MessageNotCreate(e.getMessage());
@@ -65,7 +58,7 @@ public class MessageServiceImpl implements MessageService {
     return changeStatusCommand.execute(messageId, status);
   }
 
-  @Transactional
+  @Transactional(readOnly = true)
   public Optional<Message> getMessage(Long id) {
     return getMessageQuery.execute(id);
   }

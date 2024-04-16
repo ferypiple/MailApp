@@ -1,4 +1,4 @@
-package group.avantus.mailApp.message.repository.impl.jpa;
+package group.avantus.mailApp.message.file.repository.impl.jpa;
 
 import group.avantus.mailApp.message.model.FileEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

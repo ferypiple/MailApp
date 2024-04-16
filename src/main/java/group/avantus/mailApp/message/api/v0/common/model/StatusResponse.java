@@ -12,10 +12,7 @@ public class StatusResponse {
 
   private Status status;
 
-  @Override
-  public String toString() {
-    return "STATUS: " + status.toString();
-
-
+  public StatusResponse(Message message) {
+    this.status = message.getStatus();
   }
 }

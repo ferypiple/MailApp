@@ -25,7 +25,7 @@ public class MailController {
 
   @GetMapping("/{id}/status")
   public StatusResponse getMessageStatus(@PathVariable("id") Long messageId) {
-    return new StatusResponse(messageService.getMessage(messageId).get().getStatus());
+    return new StatusResponse(messageService.getMessage(messageId).get());
   }
 
   @PostMapping

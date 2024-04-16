@@ -14,10 +14,4 @@ public class MessageResponse {
     this.id = message.getId();
   }
 
-  @Override
-  public String toString() {
-    return "id: " + id;
-
-
-  }
 }

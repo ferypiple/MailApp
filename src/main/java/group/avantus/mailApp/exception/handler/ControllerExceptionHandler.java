@@ -17,8 +17,9 @@ public class ControllerExceptionHandler {
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<String> notValid() {
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Неверные переменные");
+  public ResponseEntity<String> notValid(MethodArgumentNotValidException e) {
+    String errorMessage = e.getFieldError().getDefaultMessage();
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
   }
 }
 
