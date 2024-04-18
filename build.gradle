@@ -24,6 +24,7 @@ dependencies {
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.mockito:mockito-core'
     implementation group: 'org.postgresql', name: 'postgresql'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'jakarta.validation:jakarta.validation-api'

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface FileService {
 
-  FileEntity saveFile(MultipartFile multipartFile) throws IOException;
+    FileEntity saveFile(MultipartFile multipartFile) throws IOException;
 
-  List<FileEntity> getFiles(Long messageId);
+    List<FileEntity> getFiles(Long messageId);
 }

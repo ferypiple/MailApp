@@ -16,25 +16,25 @@ import java.util.List;
 public class FileServiceImpl implements FileService {
 
 
-  private SaveFileCommand saveFileCommand;
-  private GetFileQuery getFileQuery;
+    private final SaveFileCommand saveFileCommand;
+    private final GetFileQuery getFileQuery;
 
-  @Autowired
-  public FileServiceImpl(SaveFileCommand saveFileCommand, GetFileQuery getFileQuery) {
-    this.saveFileCommand = saveFileCommand;
-    this.getFileQuery = getFileQuery;
-  }
+    @Autowired
+    public FileServiceImpl(SaveFileCommand saveFileCommand, GetFileQuery getFileQuery) {
+        this.saveFileCommand = saveFileCommand;
+        this.getFileQuery = getFileQuery;
+    }
 
-  @Transactional
-  public FileEntity saveFile(MultipartFile multipartFile) throws IOException {
-    FileEntity fileEntity = new FileEntity();
-    fileEntity.setFileName(multipartFile.getOriginalFilename());
-    fileEntity.setData(multipartFile.getBytes());
-    return saveFileCommand.execute(fileEntity);
-  }
+    @Transactional
+    public FileEntity saveFile(MultipartFile multipartFile) throws IOException {
+        FileEntity fileEntity = new FileEntity();
+        fileEntity.setFileName(multipartFile.getOriginalFilename());
+        fileEntity.setData(multipartFile.getBytes());
+        return saveFileCommand.execute(fileEntity);
+    }
 
-  @Transactional
-  public List<FileEntity> getFiles(Long messageId) {
-    return getFileQuery.execute(messageId);
-  }
+    @Transactional
+    public List<FileEntity> getFiles(Long messageId) {
+        return getFileQuery.execute(messageId);
+    }
 }

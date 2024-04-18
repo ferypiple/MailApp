@@ -8,10 +8,10 @@ import java.util.Optional;
 
 public interface MessageService {
 
-  Message saveMessage(MailRecord mailRecord);
+    Message saveMessage(MailRecord mailRecord);
 
-  Message updateStatus(Long messageId, Status status);
+    Message updateStatus(Long messageId, Status status);
 
-  Optional<Message> getMessage(Long id);
+    Optional<Message> getMessage(Long id);
 
 }

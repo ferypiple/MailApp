@@ -9,17 +9,17 @@ import jakarta.persistence.Table;
 @Table(name = "users")
 public class User implements BaseModel<Integer> {
 
-  @Id
-  private Integer id;
+    @Id
+    private Integer id;
 
 
-  @Override
-  public Integer getId() {
-    return this.id;
-  }
+    @Override
+    public Integer getId() {
+        return this.id;
+    }
 
-  @Override
-  public void setID(Integer id) {
-    this.id = id;
-  }
+    @Override
+    public void setID(Integer id) {
+        this.id = id;
+    }
 }

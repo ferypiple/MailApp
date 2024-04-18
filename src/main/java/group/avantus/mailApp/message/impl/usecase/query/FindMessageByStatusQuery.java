@@ -11,14 +11,14 @@ import java.util.List;
 @Component
 public class FindMessageByStatusQuery {
 
-  private final MessageRepository messageRepository;
+    private final MessageRepository messageRepository;
 
-  @Autowired
-  public FindMessageByStatusQuery(MessageRepository messageRepository) {
-    this.messageRepository = messageRepository;
-  }
+    @Autowired
+    public FindMessageByStatusQuery(MessageRepository messageRepository) {
+        this.messageRepository = messageRepository;
+    }
 
-  public List<Message> execute(Status status) {
-    return messageRepository.findAllByStatus(status);
-  }
+    public List<Message> execute(Status status) {
+        return messageRepository.findAllByStatus(status);
+    }
 }

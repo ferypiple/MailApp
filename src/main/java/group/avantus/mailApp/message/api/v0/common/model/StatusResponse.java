@@ -10,9 +10,9 @@ import lombok.Getter;
 @Getter
 public class StatusResponse {
 
-  private Status status;
+    private Status status;
 
-  public StatusResponse(Message message) {
-    this.status = message.getStatus();
-  }
+    public StatusResponse(Message message) {
+        this.status = message.getStatus();
+    }
 }

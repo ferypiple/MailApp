@@ -7,30 +7,30 @@ import group.avantus.mailApp.message.model.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class EmailScheduler {
 
-  private final EmailService emailService;
+    private final EmailService emailService;
 
-  private final FindMessageByStatusQuery findMessageByStatusQuery;
+    private final FindMessageByStatusQuery findMessageByStatusQuery;
 
-  @Autowired
-  public EmailScheduler(EmailService emailService,
-      FindMessageByStatusQuery findMessageByStatusQuery) {
-    this.emailService = emailService;
-    this.findMessageByStatusQuery = findMessageByStatusQuery;
-  }
-
-  @Transactional
-  @Scheduled(fixedRateString = "${bot.recountNewArticleFixedRate}")
-  public void sendPendingEmails() {
-    List<Message> pendingMessages = findMessageByStatusQuery.execute(Status.PENDING);
-    for (Message message : pendingMessages) {
-      emailService.sendEmail(message);
+    @Autowired
+    public EmailScheduler(EmailService emailService,
+                          FindMessageByStatusQuery findMessageByStatusQuery) {
+        this.emailService = emailService;
+        this.findMessageByStatusQuery = findMessageByStatusQuery;
     }
-  }
+
+    @Transactional
+    @Scheduled(fixedRateString = "${bot.recountNewArticleFixedRate}")
+    public void sendPendingEmails() {
+        List<Message> pendingMessages = findMessageByStatusQuery.execute(Status.PENDING);
+        for (Message message : pendingMessages) {
+            emailService.sendEmail(message);
+        }
+    }
 }

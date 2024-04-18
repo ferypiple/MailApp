@@ -20,32 +20,33 @@ import java.util.List;
 @Table(name = "messages")
 public class Message implements BaseModel<Long> {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-  @Column(nullable = false)
-  private String from_email;
-  @Column(nullable = false)
-  private String to_email;
-  @Column(nullable = false)
-  private String subject;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(nullable = false)
+    private String from_email;
+    @Column(nullable = false)
+    private String to_email;
+    @Column(nullable = false)
+    private String subject;
 
-  @Column(length = 1000, nullable = false)
-  private String text;
+    @Column(length = 1000, nullable = false)
+    private String text;
 
-  @Enumerated(EnumType.STRING)
-  @Column(nullable = false)
-  private Status status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status;
 
-  @Column(nullable = false)
-  private LocalDateTime send_date;
+    @Column(nullable = false)
+    private LocalDateTime send_date;
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "message_id")
-  private List<FileEntity> files = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "message_id")
+    @Builder.Default
+    private List<FileEntity> files = new ArrayList<>();
 
-  @Override
-  public void setID(Long id) {
-    this.id = id;
-  }
+    @Override
+    public void setID(Long id) {
+        this.id = id;
+    }
 }

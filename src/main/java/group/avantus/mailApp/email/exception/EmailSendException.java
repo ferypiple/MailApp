@@ -4,8 +4,8 @@ import java.time.Instant;
 
 public class EmailSendException extends EmailException {
 
-  public EmailSendException(String message) {
+    public EmailSendException(String message) {
 
-    super("timestamp: " + Instant.now() + "\n message: Message not send!" + "Error:" + message);
-  }
+        super("timestamp: " + Instant.now() + "\n message: Message not send!" + "Error:" + message);
+    }
 }

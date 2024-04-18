@@ -8,10 +8,10 @@ import lombok.Getter;
 @Getter
 public class MessageResponse {
 
-  private Long id;
+    private Long id;
 
-  public MessageResponse(Message message) {
-    this.id = message.getId();
-  }
+    public MessageResponse(Message message) {
+        this.id = message.getId();
+    }
 
 }
