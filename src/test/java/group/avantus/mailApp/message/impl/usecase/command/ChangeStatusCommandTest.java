@@ -1,13 +1,15 @@
 package group.avantus.mailApp.message.impl.usecase.command;
 
+import group.avantus.mailApp.BaseTest;
 import group.avantus.mailApp.message.exception.MessageNotFoundException;
 import group.avantus.mailApp.message.model.Message;
 import group.avantus.mailApp.message.model.Status;
 import group.avantus.mailApp.message.repository.impl.jpa.MessageRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Optional;
 
@@ -15,17 +17,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
-public class ChangeStatusCommandTest {
+@ExtendWith(MockitoExtension.class)
+public class ChangeStatusCommandTest extends BaseTest {
 
-    @Mock
+    @MockBean
     private MessageRepository messageRepository;
 
     @InjectMocks
     private ChangeStatusCommand changeStatusCommand;
 
     @Test
-    public void testExecute() {
+    public void testChangeStatus() {
         Long messageId = 1L;
         Status status = Status.SEND;
         Message message = new Message();
@@ -45,7 +47,7 @@ public class ChangeStatusCommandTest {
     }
 
     @Test
-    public void testExecute_MessageNotFound() {
+    public void test_MessageNotFound() {
 
         Long messageId = 1L;
         Status status = Status.PENDING;

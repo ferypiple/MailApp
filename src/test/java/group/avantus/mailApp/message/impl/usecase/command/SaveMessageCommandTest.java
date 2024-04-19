@@ -1,5 +1,6 @@
 package group.avantus.mailApp.message.impl.usecase.command;
 
+import group.avantus.mailApp.BaseTest;
 import group.avantus.mailApp.message.file.impl.usecase.command.SaveFileCommand;
 import group.avantus.mailApp.message.file.impl.usecase.query.GetFileQuery;
 import group.avantus.mailApp.message.impl.FileServiceImpl;
@@ -10,9 +11,10 @@ import group.avantus.mailApp.message.model.Status;
 import group.avantus.mailApp.message.repository.impl.jpa.MessageRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -24,10 +26,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
-class SaveMessageCommandTest {
+@ExtendWith(MockitoExtension.class)
+class SaveMessageCommandTest extends BaseTest {
 
-    @Mock
+    @MockBean
     private MessageRepository messageRepository;
 
     @Mock
@@ -42,13 +44,12 @@ class SaveMessageCommandTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
         fileService = new FileServiceImpl(saveFileCommand, getFileQuery);
         saveMessageCommand = new SaveMessageCommand(messageRepository, fileService);
     }
 
     @Test
-    void testExecute() throws IOException {
+    void testSaveMessage() throws IOException {
         MailRecord mailRecord = new MailRecord("sender@example.com", "recipient@example.com",
                 "Test Subject", "Test Body", new MultipartFile[0]);
         List<FileEntity> files = new ArrayList<>();
@@ -56,9 +57,6 @@ class SaveMessageCommandTest {
                 .fileName("example.txt")
                 .data("file_content".getBytes())
                 .build());
-
-
-        when(saveFileCommand.execute(any(FileEntity.class))).thenReturn(files.get(0));
 
 
         when(messageRepository.save(any(Message.class))).thenReturn(new Message(1L,
