@@ -3,7 +3,6 @@ package group.avantus.mailApp.email.impl;
 
 import group.avantus.mailApp.email.EmailService;
 import group.avantus.mailApp.email.exception.EmailSendException;
-import group.avantus.mailApp.exception.CustomExceptionHandler;
 import group.avantus.mailApp.message.MessageService;
 import group.avantus.mailApp.message.file.FileService;
 import group.avantus.mailApp.message.impl.FileServiceImpl;
@@ -22,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@CustomExceptionHandler
+
 @Service
 public class EmailServiceImpl implements EmailService {
 

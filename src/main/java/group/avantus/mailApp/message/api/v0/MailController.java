@@ -1,27 +1,21 @@
 package group.avantus.mailApp.message.api.v0;
 
-import group.avantus.mailApp.exception.CustomExceptionHandler;
+
 import group.avantus.mailApp.message.MessageService;
 import group.avantus.mailApp.message.api.v0.common.model.EmailRequest;
 import group.avantus.mailApp.message.api.v0.common.model.MessageResponse;
 import group.avantus.mailApp.message.api.v0.common.model.StatusResponse;
-import group.avantus.mailApp.message.impl.MessageServiceImpl;
 import group.avantus.mailApp.message.model.MailRecord;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@CustomExceptionHandler
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/mailapp/api/v0/mail")
 public class MailController {
 
     private final MessageService messageService;
-
-    @Autowired
-    public MailController(MessageServiceImpl messageService) {
-        this.messageService = messageService;
-    }
 
     @GetMapping("/{id}/status")
     public StatusResponse getMessageStatus(@PathVariable("id") Long messageId) {

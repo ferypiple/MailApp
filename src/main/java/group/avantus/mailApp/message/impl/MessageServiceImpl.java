@@ -2,39 +2,28 @@ package group.avantus.mailApp.message.impl;
 
 import group.avantus.mailApp.message.MessageService;
 import group.avantus.mailApp.message.exception.MessageNotCreate;
-import group.avantus.mailApp.message.file.FileService;
 import group.avantus.mailApp.message.impl.usecase.command.ChangeStatusCommand;
 import group.avantus.mailApp.message.impl.usecase.command.SaveMessageCommand;
 import group.avantus.mailApp.message.impl.usecase.query.GetMessageQuery;
 import group.avantus.mailApp.message.model.MailRecord;
 import group.avantus.mailApp.message.model.Message;
 import group.avantus.mailApp.message.model.Status;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class MessageServiceImpl implements MessageService {
 
     private final ChangeStatusCommand changeStatusCommand;
 
     private final GetMessageQuery getMessageQuery;
+
     private final SaveMessageCommand saveMessageCommand;
 
-    private final FileService fileService;
-
-
-    @Autowired
-    public MessageServiceImpl(GetMessageQuery getMessageQuery,
-                              ChangeStatusCommand changeStatusCommand, SaveMessageCommand saveMessageCommand,
-                              FileServiceImpl fileService) {
-        this.getMessageQuery = getMessageQuery;
-        this.changeStatusCommand = changeStatusCommand;
-        this.saveMessageCommand = saveMessageCommand;
-        this.fileService = fileService;
-    }
 
     @Transactional
     public Message saveMessage(MailRecord mailRecord) {

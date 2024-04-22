@@ -9,4 +9,5 @@ public interface EmailService {
 
 
     void sendEmail(Message message);
+
 }

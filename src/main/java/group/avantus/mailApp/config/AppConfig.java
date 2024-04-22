@@ -1,6 +1,7 @@
 package group.avantus.mailApp.config;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -9,45 +10,27 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import java.util.Properties;
 
 @Configuration
+@EnableConfigurationProperties(MailProperties.class)
 public class AppConfig {
 
-    @Value("${spring.mail.host}")
-    private String host;
-
-    @Value("${spring.mail.username}")
-    private String username;
-
-    @Value("${spring.mail.password}")
-    private String password;
-
-    @Value("${spring.mail.port}")
-    private int port;
-
-    @Value("${spring.mail.properties.mail.smtp.auth}")
-    private String auth;
-
-    @Value("${spring.mail.properties.mail.smtp.starttls.enable}")
-    private String tls;
-
-    @Value("${spring.mail.properties.mail.transport.protocol}")
-    private String protocol;
-
+    @Autowired
+    private MailProperties mailProperties;
 
     @Bean
     public JavaMailSender getMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
-        mailSender.setHost(host);
-        mailSender.setPort(port);
-        mailSender.setUsername(username);
-        mailSender.setPassword(password);
+        mailSender.setHost(mailProperties.getHost());
+        mailSender.setPort(mailProperties.getPort());
+        mailSender.setUsername(mailProperties.getUsername());
+        mailSender.setPassword(mailProperties.getPassword());
 
         Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", protocol);
-        props.put("mail.smtp.auth", auth);
-        props.put("mail.smtp.starttls.enable", tls);
+        props.put("mail.transport.protocol", mailProperties.getProtocol());
+        props.put("mail.smtp.auth", mailProperties.getAuth());
+        props.put("mail.smtp.starttls.enable", mailProperties.getTls());
 
         return mailSender;
     }
-
 }
+
