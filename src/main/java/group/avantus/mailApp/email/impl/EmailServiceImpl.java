@@ -11,6 +11,7 @@ import group.avantus.mailApp.message.model.FileEntity;
 import group.avantus.mailApp.message.model.Message;
 import group.avantus.mailApp.message.model.Status;
 import jakarta.mail.internet.MimeMessage;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -21,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
+@RequiredArgsConstructor
 @Service
 public class EmailServiceImpl implements EmailService {
 
@@ -29,16 +30,11 @@ public class EmailServiceImpl implements EmailService {
     private final JavaMailSender mailSender;
 
     private final MessageService messageService;
+
     private final FileService fileService;
 
 
-    @Autowired
-    public EmailServiceImpl(MessageServiceImpl messageServiceImpl, JavaMailSender mailSender,
-                            FileServiceImpl fileService) {
-        this.messageService = messageServiceImpl;
-        this.mailSender = mailSender;
-        this.fileService = fileService;
-    }
+
 
     @Override
     @Transactional
@@ -55,7 +51,7 @@ public class EmailServiceImpl implements EmailService {
 
             List<FileEntity> attachments = fileService.getFiles(mail.getId());
 
-            if (attachments != null && attachments.size() > 0) {
+            if (attachments != null && !attachments.isEmpty()) {
                 for (FileEntity file : attachments) {
                     Resource resource = new ByteArrayResource(file.getData());
                     messageHelper.addAttachment(file.getFileName(), resource);

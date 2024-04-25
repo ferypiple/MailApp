@@ -29,7 +29,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class SaveMessageCommandTest extends BaseTest {
 
-    @MockBean
+    @Mock
     private MessageRepository messageRepository;
 
     @Mock

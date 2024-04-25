@@ -21,7 +21,7 @@ public class EmailScheduler {
 
 
     @Transactional
-    @Scheduled(fixedRateString = "${bot.recountNewArticleFixedRate}", initialDelayString = "${bot.recountNewArticleFixedRate}")
+    @Scheduled(fixedRateString = "${bot.recountNewArticleFixedRate}", initialDelay = 5000)
     public void sendPendingEmails() {
         List<Message> pendingMessages = findMessageByStatusQuery.execute(Status.PENDING);
         for (Message message : pendingMessages) {

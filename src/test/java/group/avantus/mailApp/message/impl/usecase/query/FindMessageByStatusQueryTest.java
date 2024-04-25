@@ -7,6 +7,7 @@ import group.avantus.mailApp.message.repository.impl.jpa.MessageRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -19,7 +20,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class FindMessageByStatusQueryTest extends BaseTest {
 
-    @MockBean
+    @Mock
     private MessageRepository messageRepository;
 
     @InjectMocks
