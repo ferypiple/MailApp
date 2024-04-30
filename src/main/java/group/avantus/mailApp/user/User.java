@@ -1,25 +1,48 @@
 package group.avantus.mailApp.user;
 
 import group.avantus.mailApp.model.BaseModel;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.Collection;
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
-public class User implements BaseModel<Integer> {
-
+public class User implements BaseModel<Long> {
     @Id
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "password")
+    private String password;
+
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Collection<Role> roles;
 
 
     @Override
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
     @Override
-    public void setID(Integer id) {
+    public void setID(Long id) {
         this.id = id;
     }
+
 }
