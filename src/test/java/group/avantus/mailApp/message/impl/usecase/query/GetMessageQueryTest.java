@@ -7,8 +7,8 @@ import group.avantus.mailApp.message.repository.impl.jpa.MessageRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Optional;
 
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class GetMessageQueryTest extends BaseTest {
 
-    @MockBean
+    @Mock
     private MessageRepository messageRepository;
 
     private GetMessageQuery getMessageQuery;
