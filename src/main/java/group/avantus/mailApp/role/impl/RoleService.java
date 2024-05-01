@@ -1,5 +1,7 @@
-package group.avantus.mailApp.user;
+package group.avantus.mailApp.role.impl;
 
+import group.avantus.mailApp.role.model.Role;
+import group.avantus.mailApp.role.repository.impl.jpa.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

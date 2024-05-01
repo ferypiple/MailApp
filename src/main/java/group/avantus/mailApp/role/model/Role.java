@@ -1,8 +1,10 @@
-package group.avantus.mailApp.user;
+package group.avantus.mailApp.role.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter

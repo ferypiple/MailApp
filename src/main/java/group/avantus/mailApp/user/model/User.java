@@ -1,6 +1,7 @@
-package group.avantus.mailApp.user;
+package group.avantus.mailApp.user.model;
 
 import group.avantus.mailApp.model.BaseModel;
+import group.avantus.mailApp.role.model.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

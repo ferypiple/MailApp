@@ -1,5 +1,6 @@
-package group.avantus.mailApp.user;
+package group.avantus.mailApp.user.repository.impl.jpa;
 
+import group.avantus.mailApp.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

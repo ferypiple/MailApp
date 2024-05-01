@@ -3,10 +3,10 @@ package group.avantus.mailApp.auth.service;
 import group.avantus.mailApp.exception.AppError;
 import group.avantus.mailApp.jwt.dto.JwtRequest;
 import group.avantus.mailApp.jwt.dto.JwtResponse;
-import group.avantus.mailApp.user.RegistrationUserDto;
-import group.avantus.mailApp.user.User;
-import group.avantus.mailApp.user.UserDto;
-import group.avantus.mailApp.user.UserService;
+import group.avantus.mailApp.user.dto.RegistrationUserDto;
+import group.avantus.mailApp.user.dto.UserDto;
+import group.avantus.mailApp.user.impl.UserService;
+import group.avantus.mailApp.user.model.User;
 import group.avantus.mailApp.util.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,9 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import org.springframework.stereotype.Service;
-
 import org.springframework.web.bind.annotation.RequestBody;
 
 

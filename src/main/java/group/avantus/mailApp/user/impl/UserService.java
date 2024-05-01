@@ -1,7 +1,10 @@
-package group.avantus.mailApp.user;
+package group.avantus.mailApp.user.impl;
 
 
-
+import group.avantus.mailApp.role.impl.RoleService;
+import group.avantus.mailApp.user.dto.RegistrationUserDto;
+import group.avantus.mailApp.user.model.User;
+import group.avantus.mailApp.user.repository.impl.jpa.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

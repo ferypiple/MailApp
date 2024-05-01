@@ -1,6 +1,6 @@
 package group.avantus.mailApp.config;
 
-import group.avantus.mailApp.user.UserService;
+import group.avantus.mailApp.user.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

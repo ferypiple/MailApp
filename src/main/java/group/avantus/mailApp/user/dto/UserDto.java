@@ -1,4 +1,4 @@
-package group.avantus.mailApp.user;
+package group.avantus.mailApp.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
