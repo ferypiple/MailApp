@@ -3,9 +3,10 @@ package group.avantus.mailApp.user.impl;
 
 import group.avantus.mailApp.role.impl.RoleService;
 import group.avantus.mailApp.user.dto.RegistrationUserDto;
+import group.avantus.mailApp.user.impl.usecase.command.SaveUserCommand;
+import group.avantus.mailApp.user.impl.usecase.query.FindByUsername;
 import group.avantus.mailApp.user.model.User;
-import group.avantus.mailApp.user.repository.impl.jpa.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,37 +19,23 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class UserService implements UserDetailsService {
-    private UserRepository userRepository;
-    private RoleService roleService;
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    @Autowired
-    public void setRoleService(RoleService roleService) {
-        this.roleService = roleService;
-    }
-
-    @Autowired
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
+    private final SaveUserCommand saveUserCommand;
+    private final FindByUsername findByUsername;
+    private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
 
     public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return findByUsername.execute(username);
     }
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(
-                String.format("Пользователь '%s' не найден", username)
-        ));
+        User user = findByUsername.execute(username).orElseThrow(() -> new UsernameNotFoundException(username)
+        );
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
@@ -61,7 +48,7 @@ public class UserService implements UserDetailsService {
         user.setUsername(registrationUserDto.getUsername());
         user.setPassword(passwordEncoder.encode(registrationUserDto.getPassword()));
         user.setRoles(List.of(roleService.getUserRole()));
-        return userRepository.save(user);
+        return saveUserCommand.execute(user);
     }
 
 }

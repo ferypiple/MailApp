@@ -12,8 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @RequiredArgsConstructor
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -42,7 +40,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Message> getMessage(Long id) {
+    public Message getMessage(Long id) {
         return getMessageQuery.execute(id);
     }
 }
