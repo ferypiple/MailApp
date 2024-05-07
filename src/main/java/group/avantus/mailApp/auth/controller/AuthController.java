@@ -1,6 +1,6 @@
 package group.avantus.mailApp.auth.controller;
 
-import group.avantus.mailApp.auth.service.AuthService;
+import group.avantus.mailApp.auth.AuthService;
 import group.avantus.mailApp.jwt.dto.JwtRequest;
 import group.avantus.mailApp.user.dto.RegistrationUserDto;
 import lombok.RequiredArgsConstructor;
@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
 
-    private final AuthService authService;
+    private final AuthService authServiceImpl;
 
     @PostMapping("/auth")
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest) {
-        return authService.createAuthToken(authRequest);
+        return authServiceImpl.createAuthToken(authRequest);
     }
 
     @PostMapping("/registration")
     public ResponseEntity<?> createNewUser(@RequestBody RegistrationUserDto registrationUserDto) {
-        return authService.createNewUser(registrationUserDto);
+        return authServiceImpl.createNewUser(registrationUserDto);
     }
 }

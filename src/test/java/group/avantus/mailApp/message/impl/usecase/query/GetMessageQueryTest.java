@@ -1,6 +1,7 @@
 package group.avantus.mailApp.message.impl.usecase.query;
 
 import group.avantus.mailApp.BaseTest;
+import group.avantus.mailApp.message.exception.MessageNotFoundException;
 import group.avantus.mailApp.message.model.Message;
 import group.avantus.mailApp.message.model.Status;
 import group.avantus.mailApp.message.repository.impl.jpa.MessageRepository;
@@ -13,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
@@ -40,9 +42,9 @@ public class GetMessageQueryTest extends BaseTest {
 
         when(messageRepository.findById(anyLong())).thenReturn(Optional.of(message));
 
-        Optional<Message> result = getMessageQuery.execute(messageId);
+        Message result = getMessageQuery.execute(messageId);
 
-        assertEquals(message, result.orElse(null));
+        assertEquals(message, result);
     }
 
     @Test
@@ -51,9 +53,6 @@ public class GetMessageQueryTest extends BaseTest {
 
         when(messageRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-
-        Optional<Message> result = getMessageQuery.execute(messageId);
-
-        assertEquals(Optional.empty(), result);
+        assertThrows(MessageNotFoundException.class, () -> getMessageQuery.execute(messageId));
     }
 }

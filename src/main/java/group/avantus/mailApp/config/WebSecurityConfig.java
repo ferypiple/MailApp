@@ -1,6 +1,7 @@
 package group.avantus.mailApp.config;
 
-import group.avantus.mailApp.user.impl.UserService;
+import group.avantus.mailApp.user.UserService;
+import group.avantus.mailApp.user.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,8 +35,8 @@ public class WebSecurityConfig {
     }
 
     @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
+    public void setUserService(UserServiceImpl userServiceImpl) {
+        this.userService = userServiceImpl;
     }
 
     @Autowired

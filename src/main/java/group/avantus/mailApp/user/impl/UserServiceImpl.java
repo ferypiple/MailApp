@@ -1,7 +1,8 @@
 package group.avantus.mailApp.user.impl;
 
 
-import group.avantus.mailApp.role.impl.RoleService;
+import group.avantus.mailApp.role.RoleService;
+import group.avantus.mailApp.user.UserService;
 import group.avantus.mailApp.user.dto.RegistrationUserDto;
 import group.avantus.mailApp.user.impl.usecase.command.SaveUserCommand;
 import group.avantus.mailApp.user.impl.usecase.query.FindByUsername;
@@ -9,7 +10,6 @@ import group.avantus.mailApp.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class UserService implements UserDetailsService {
+public class UserServiceImpl implements UserService {
     private final SaveUserCommand saveUserCommand;
     private final FindByUsername findByUsername;
     private final RoleService roleService;
