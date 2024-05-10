@@ -1,0 +1,14 @@
+package group.avantus.mailApp.message.file;
+
+import group.avantus.mailApp.message.model.FileEntity;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+
+public interface FileService {
+
+    FileEntity saveFile(MultipartFile multipartFile) throws IOException;
+
+    List<FileEntity> getFiles(Long messageId);
+}

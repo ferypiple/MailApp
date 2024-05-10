@@ -5,6 +5,7 @@ spring:
     username: sa
     password:
 
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -24,7 +25,20 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: false
+        hbm2ddl:
+          auto: validate
   servlet:
     multipart:
       max-request-size: 100MB
       max-file-size: 100MB
+  sql:
+    init:
+      mode: always
+
+
+bot:
+  recountNewArticleFixedRate: 20000
+jwt:
+  secret: 984hg493gh0439rthr0429uruj2309yh937gc763fe87t3f89723gf
+  lifetime: 30m
